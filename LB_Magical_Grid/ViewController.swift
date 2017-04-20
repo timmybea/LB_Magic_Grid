@@ -64,7 +64,7 @@ class ViewController: UIViewController {
         self.view.bringSubview(toFront: cellView)
         
         if recognizer.state == .ended {
-            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            UIView.animate(withDuration: 0.5, delay: 0.25, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
                 self.selectedCell?.layer.transform = CATransform3DIdentity
             }, completion: nil)
         } else {
