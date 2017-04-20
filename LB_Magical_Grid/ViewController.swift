@@ -14,6 +14,8 @@ class ViewController: UIViewController {
     
     var viewsDict = [String: UIView]()
     
+    var selectedCell: UIView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,16 +51,27 @@ class ViewController: UIViewController {
         let j = Int(position.y / size)
         
         let key = "\(i)|\(j)"
-        let view = viewsDict[key]
-        view?.backgroundColor = .white
+        guard let cellView = viewsDict[key] else { return }
         
+        if selectedCell != cellView {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.selectedCell?.layer.transform = CATransform3DIdentity
+            }, completion: nil)
+        }
         
-//        for subview in view.subviews {
-//            
-//            if subview.frame.contains(position) {
-//                subview.backgroundColor = UIColor.black
-//            }
-//        }
+        selectedCell = cellView
+
+        self.view.bringSubview(toFront: cellView)
+        
+        if recognizer.state == .ended {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.selectedCell?.layer.transform = CATransform3DIdentity
+            }, completion: nil)
+        } else {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.selectedCell?.layer.transform = CATransform3DMakeScale(3, 3, 3)
+            }, completion: nil)
+        }
     }
     
     fileprivate func randomColor() -> UIColor {
